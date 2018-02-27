@@ -23,6 +23,7 @@ public class ServerResponse<T> implements Serializable {
     private ServerResponse(int status){
         this.status = status;
     }
+
     private ServerResponse(int status,T data){
         this.status = status;
         this.data = data;
@@ -38,6 +39,13 @@ public class ServerResponse<T> implements Serializable {
         this.status = status;
         this.msg = msg;
     }
+
+//    public static void main(String[] args) {
+//        ServerResponse s=new ServerResponse(1,new Object());
+//        ServerResponse s1=new ServerResponse(1,"abc");
+//        System.out.println("console");
+//
+//    }
 
     @JsonIgnore
     //使之不在json序列化结果当中

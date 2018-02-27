@@ -36,7 +36,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "login.do", method = RequestMethod.POST)
-    @ResponseBody
+    @ResponseBody  //json序列化
     public ServerResponse<User> login(String username, String password, HttpSession session) {
         ServerResponse<User> response = iUserService.login(username, password);
         if (response.isSuccess()) {

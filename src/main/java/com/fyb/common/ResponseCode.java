@@ -1,6 +1,7 @@
 package com.fyb.common;
 
 
+
 public enum ResponseCode {
 
     SUCCESS(0,"SUCCESS"),
