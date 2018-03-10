@@ -2,7 +2,7 @@ package com.fyb.util;
 
 import java.math.BigDecimal;
 
-
+//商业运算里用String构造器
 public class BigDecimalUtil {
 
     private BigDecimalUtil(){
