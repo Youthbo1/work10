@@ -72,7 +72,6 @@ public class OrderController {
     }
 
 
-
     @RequestMapping("detail.do")
     @ResponseBody
     public ServerResponse detail(HttpSession session,Long orderNo){
@@ -97,25 +96,7 @@ public class OrderController {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    //支付模块
     @RequestMapping("pay.do")
     @ResponseBody
     public ServerResponse pay(HttpSession session, Long orderNo, HttpServletRequest request){
@@ -159,16 +140,12 @@ public class OrderController {
         }
 
         //todo 验证各种数据
-
-
-        //
         ServerResponse serverResponse = iOrderService.aliCallback(params);
         if(serverResponse.isSuccess()){
             return Const.AlipayCallback.RESPONSE_SUCCESS;
         }
         return Const.AlipayCallback.RESPONSE_FAILED;
     }
-
 
     @RequestMapping("query_order_pay_status.do")
     @ResponseBody
@@ -184,23 +161,5 @@ public class OrderController {
         }
         return ServerResponse.createBySuccess(false);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

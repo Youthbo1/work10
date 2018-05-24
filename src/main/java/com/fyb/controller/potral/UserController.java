@@ -27,14 +27,7 @@ public class UserController {
     private IUserService iUserService;
 
 
-    /**
-     * 用户登录
-     *
-     * @param username
-     * @param password
-     * @param session
-     * @return
-     */
+
     @RequestMapping(value = "login.do", method = RequestMethod.POST)
     @ResponseBody  //json序列化
     public ServerResponse<User> login(String username, String password, HttpSession session) {
@@ -73,7 +66,7 @@ public class UserController {
         if (user != null) {
             return ServerResponse.createBySuccess(user);
         }
-        return ServerResponse.createByErrorMessage("用户未登录,无法获取当前用户的信息");
+        return ServerResponse.createByErrorMessage("未登录,无法获取当前用户的信息");
     }
 
 

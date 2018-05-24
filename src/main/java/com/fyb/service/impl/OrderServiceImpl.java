@@ -104,10 +104,10 @@ public class OrderServiceImpl implements IOrderService {
         for(OrderItem orderItem : orderItemList){
             orderItem.setOrderNo(order.getOrderNo());
         }
-        //mybatis 批量插入
+        // 批量插入
         orderItemMapper.batchInsert(orderItemList);
 
-        //生成成功,我们要减少我们产品的库存
+        //生成成功,减少产品的库存
         this.reduceProductStock(orderItemList);
         //清空一下购物车
         this.cleanCart(cartList);
@@ -199,6 +199,7 @@ public class OrderServiceImpl implements IOrderService {
     private void reduceProductStock(List<OrderItem> orderItemList){
         for(OrderItem orderItem : orderItemList){
             Product product = productMapper.selectByPrimaryKey(orderItem.getProductId());
+            //库存-订单里的数量
             product.setStock(product.getStock()-orderItem.getQuantity());
             productMapper.updateByPrimaryKeySelective(product);
         }
@@ -226,6 +227,7 @@ public class OrderServiceImpl implements IOrderService {
     }
 
 
+    //生成订单号
     private long generateOrderNo(){
         long currentTime =System.currentTimeMillis();
         return currentTime+new Random().nextInt(100);
@@ -252,7 +254,7 @@ public class OrderServiceImpl implements IOrderService {
             OrderItem orderItem = new OrderItem();
             Product product = productMapper.selectByPrimaryKey(cartItem.getProductId());
             if(Const.ProductStatusEnum.ON_SALE.getCode() != product.getStatus()){
-                return ServerResponse.createByErrorMessage("产品"+product.getName()+"不是在线售卖状态");
+                return ServerResponse.createByErrorMessage("产品"+product.getName()+"不是在售状态");
             }
 
             //校验库存
@@ -349,7 +351,7 @@ public class OrderServiceImpl implements IOrderService {
         for(Order order : orderList){
             List<OrderItem>  orderItemList = Lists.newArrayList();
             if(userId == null){
-                //todo 管理员查询的时候 不需要传userId
+                // 管理员查询的时候 不需要传userId
                 orderItemList = orderItemMapper.getByOrderNo(order.getOrderNo());
             }else{
                 orderItemList = orderItemMapper.getByOrderNoUserId(order.getOrderNo(),userId);
@@ -359,22 +361,6 @@ public class OrderServiceImpl implements IOrderService {
         }
         return orderVoList;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -397,7 +383,7 @@ public class OrderServiceImpl implements IOrderService {
 
 
         // (必填) 订单标题，粗略描述用户的支付目的。如“xxx品牌xxx门店当面付扫码消费”
-        String subject = new StringBuilder().append("happymmall扫码支付,订单号:").append(outTradeNo).toString();
+        String subject = new StringBuilder().append("扫码支付,订单号:").append(outTradeNo).toString();
 
 
         // (必填) 订单总金额，单位为元，不能超过1亿元
@@ -520,7 +506,7 @@ public class OrderServiceImpl implements IOrderService {
         String tradeStatus = params.get("trade_status");
         Order order = orderMapper.selectByOrderNo(orderNo);
         if(order == null){
-            return ServerResponse.createByErrorMessage("非快乐慕商城的订单,回调忽略");
+            return ServerResponse.createByErrorMessage("非商城的订单,回调忽略");
         }
         if(order.getStatus() >= Const.OrderStatusEnum.PAID.getCode()){
             return ServerResponse.createBySuccess("支付宝重复调用");
@@ -545,8 +531,6 @@ public class OrderServiceImpl implements IOrderService {
 
 
 
-
-
     public ServerResponse queryOrderPayStatus(Integer userId,Long orderNo){
         Order order = orderMapper.selectByUserIdAndOrderNo(userId,orderNo);
         if(order == null){
@@ -557,19 +541,6 @@ public class OrderServiceImpl implements IOrderService {
         }
         return ServerResponse.createByError();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     //backend
 
@@ -622,29 +593,5 @@ public class OrderServiceImpl implements IOrderService {
         }
         return ServerResponse.createByErrorMessage("订单不存在");
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

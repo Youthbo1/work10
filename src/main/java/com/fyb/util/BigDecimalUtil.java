@@ -2,7 +2,8 @@ package com.fyb.util;
 
 import java.math.BigDecimal;
 
-//商业运算里用String构造器
+//商业运算里用String构造器，保证精度不丢失
+//  +-*/ 的重写
 public class BigDecimalUtil {
 
     private BigDecimalUtil(){
@@ -34,7 +35,6 @@ public class BigDecimalUtil {
         BigDecimal b2 = new BigDecimal(Double.toString(v2));
         return b1.divide(b2,2,BigDecimal.ROUND_HALF_UP);//四舍五入,保留2位小数
 
-        //除不尽的情况
     }
 
 

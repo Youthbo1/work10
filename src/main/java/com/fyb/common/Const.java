@@ -4,9 +4,7 @@ import com.google.common.collect.Sets;
 
 import java.util.Set;
 
-/**
- *
- */
+
 public class Const {
 
     public static final String CURRENT_USER = "currentUser";
@@ -32,7 +30,7 @@ public class Const {
     }
 
     public enum ProductStatusEnum{
-        ON_SALE(1,"在线");
+        ON_SALE(1,"在售");
         private String value;
         private int code;
         ProductStatusEnum(int code,String value){
@@ -137,7 +135,7 @@ public class Const {
                     return paymentTypeEnum;
                 }
             }
-            throw new RuntimeException("么有找到对应的枚举");
+            throw new RuntimeException("没有找到对应的枚举");
         }
 
     }

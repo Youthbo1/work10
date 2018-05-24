@@ -24,15 +24,16 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from mmall_shipping
+    from shipping
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from mmall_shipping
+    delete from shipping
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  <!--生成ID-->
   <insert id="insert" parameterType="com.fyb.pojo.Shipping" useGeneratedKeys="true" keyProperty="id">
-    insert into mmall_shipping (id, user_id, receiver_name, 
+    insert into shipping (id, user_id, receiver_name,
       receiver_phone, receiver_mobile, receiver_province, 
       receiver_city, receiver_district, receiver_address, 
       receiver_zip, create_time, update_time
@@ -44,7 +45,7 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.fyb.pojo.Shipping" >
-    insert into mmall_shipping
+    insert into shipping
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -123,7 +124,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.fyb.pojo.Shipping" >
-    update mmall_shipping
+    update shipping
     <set >
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
@@ -162,7 +163,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.fyb.pojo.Shipping" >
-    update mmall_shipping
+    update shipping
     set user_id = #{userId,jdbcType=INTEGER},
       receiver_name = #{receiverName,jdbcType=VARCHAR},
       receiver_phone = #{receiverPhone,jdbcType=VARCHAR},
@@ -178,13 +179,13 @@
   </update>
 
   <delete id="deleteByShippingIdUserId" parameterType="map">
-    DELETE  FROM  mmall_shipping
+    DELETE  FROM  shipping
     where id = #{shippingId}
     and user_id = #{userId}
   </delete>
 
   <update id="updateByShipping" parameterType="com.fyb.pojo.Shipping">
-    update mmall_shipping
+    update shipping
     set
     receiver_name = #{receiverName,jdbcType=VARCHAR},
     receiver_phone = #{receiverPhone,jdbcType=VARCHAR},
@@ -204,7 +205,7 @@
   <select id="selectByShippingIdUserId" resultMap="BaseResultMap" parameterType="map">
     SELECT
     <include refid="Base_Column_List"/>
-    from mmall_shipping
+    from shipping
     where id = #{shippingId}
     and user_id = #{userId}
   </select>
@@ -213,7 +214,7 @@
   <select id="selectByUserId" resultMap="BaseResultMap" parameterType="map">
     SELECT
     <include refid="Base_Column_List"/>
-    from mmall_shipping
+    from shipping
     where user_id = #{userId}
   </select>
 

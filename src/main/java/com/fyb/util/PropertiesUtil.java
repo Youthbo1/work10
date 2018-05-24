@@ -15,9 +15,8 @@ public class PropertiesUtil {
 
     private static Properties props;
 
-    //1  2{}  3class{}
     static {
-        String fileName = "mmall.properties";
+        String fileName = "mall.properties";
         props = new Properties();
         try {
             props.load(new InputStreamReader(PropertiesUtil.class.getClassLoader().getResourceAsStream(fileName),
@@ -33,6 +32,7 @@ public class PropertiesUtil {
         if(StringUtils.isBlank(value)){
             return null;
         }
+        //去空格
         return value.trim();
     }
 

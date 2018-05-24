@@ -29,7 +29,7 @@ import java.util.List;
  */
 
 @Service("iCartService")
-public class CartServiceImpl implements ICartService {
+public class CartServiceImpl implements ICartService{
 
     @Autowired
     private CartMapper cartMapper;
@@ -45,7 +45,7 @@ public class CartServiceImpl implements ICartService {
 
         Cart cart = cartMapper.selectCartByUserIdProductId(userId, productId);
         if (cart == null) {
-            //这个产品不在这个购物车里,需要新增一个这个产品的记录
+            //这个产品不在这个购物车里,新增这个产品
             Cart cartItem = new Cart();
             cartItem.setQuantity(count);
             cartItem.setChecked(Const.Cart.CHECKED);
@@ -53,8 +53,7 @@ public class CartServiceImpl implements ICartService {
             cartItem.setUserId(userId);
             cartMapper.insert(cartItem);
         } else {
-            //这个产品已经在购物车里了.
-            //如果产品已存在,数量相加
+            //产品已存在,数量+count
             count = cart.getQuantity() + count;
             cart.setQuantity(count);
             cartMapper.updateByPrimaryKeySelective(cart);
@@ -76,6 +75,7 @@ public class CartServiceImpl implements ICartService {
     }
 
     public ServerResponse<CartVo> deleteProduct(Integer userId, String productIds) {
+        //传的 productId  以，分隔
         List<String> productList = Splitter.on(",").splitToList(productIds);
         if (CollectionUtils.isEmpty(productList)) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
@@ -90,7 +90,7 @@ public class CartServiceImpl implements ICartService {
         return ServerResponse.createBySuccess(cartVo);
     }
 
-
+    //全选 反选  单选 反 共用
     public ServerResponse<CartVo> selectOrUnSelect(Integer userId, Integer productId, Integer checked) {
         cartMapper.checkedOrUncheckedProduct(userId, productId, checked);
         return this.list(userId);
@@ -107,8 +107,10 @@ public class CartServiceImpl implements ICartService {
     private CartVo getCartVoLimit(Integer userId) {
         CartVo cartVo = new CartVo();
         List<Cart> cartList = cartMapper.selectCartByUserId(userId);
-        List<CartProductVo> cartProductVoList = Lists.newArrayList();
 
+        List<CartProductVo> cartProductVoList = Lists.newArrayList();
+        //购物车初始化总价0
+        //用BigDecimal String构造器，否则会精度丢失
         BigDecimal cartTotalPrice = new BigDecimal("0");
 
         if (CollectionUtils.isNotEmpty(cartList)) {
@@ -148,7 +150,7 @@ public class CartServiceImpl implements ICartService {
                 }
 
                 if (cartItem.getChecked() == Const.Cart.CHECKED) {
-                    //如果已经勾选,增加到整个的购物车总价中
+                    //如果已经勾选,增加到购物车总价中
                     cartTotalPrice = BigDecimalUtil.add(cartTotalPrice.doubleValue(), cartProductVo.getProductTotalPrice().doubleValue());
                 }
                 cartProductVoList.add(cartProductVo);

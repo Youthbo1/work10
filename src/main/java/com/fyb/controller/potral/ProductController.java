@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * \Date: 2018/2/27
  * \
  * \Description:
- * \
+ * \产品模块
  */
 @Controller
 @RequestMapping("/product/")
@@ -38,11 +38,10 @@ public class ProductController {
                                          @RequestParam(value = "pageNum",defaultValue = "1") int pageNum,
                                          @RequestParam(value = "pageSize",defaultValue = "10") int pageSize,
                                          @RequestParam(value = "orderBy",defaultValue = "") String orderBy){
+
         return iProductService.getProductByKeywordCategory(keyword,categoryId,pageNum,pageSize,orderBy);
+
     }
-
-
-
 
 
 }

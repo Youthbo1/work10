@@ -12,7 +12,6 @@
 
     <appender name="fyb" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <File>E:/logs</File>
-        <!--<File>/developer/apache-tomcat-7.0.73/logs/mmall.log</File>-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>E:/logs/fyb.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
             <append>true</append>
@@ -29,7 +28,6 @@
         <!--<File>/developer/apache-tomcat-7.0.73/logs/error.log</File>-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>E:logs/error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
-            <!--<fileNamePattern>d:/mmalllog/error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>-->
             <append>true</append>
             <maxHistory>10</maxHistory>
         </rollingPolicy>

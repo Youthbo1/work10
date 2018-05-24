@@ -60,7 +60,7 @@ public class ProductServiceImpl implements IProductService {
                 }
 
                 return ServerResponse.createBySuccess("更新产品失败");
-            }else{
+            }else{//==null 新增
                 int rowCount = productMapper.insert(product);
                 if(rowCount > 0){
                     return ServerResponse.createBySuccess("新增产品成功");
@@ -101,6 +101,7 @@ public class ProductServiceImpl implements IProductService {
         return ServerResponse.createBySuccess(productDetailVo);
     }
 
+    //装配Value Object
     private ProductDetailVo assembleProductDetailVo(Product product){
         ProductDetailVo productDetailVo = new ProductDetailVo();
         productDetailVo.setId(product.getId());
@@ -114,8 +115,10 @@ public class ProductServiceImpl implements IProductService {
         productDetailVo.setStatus(product.getStatus());
         productDetailVo.setStock(product.getStock());
 
+
+        //文件服务器加载
         productDetailVo.setImageHost(PropertiesUtil.getProperty("ftp.server.http.prefix",
-                "http://img.happymmall.com/"));
+                "http://img.fyb.com/"));
 
         Category category = categoryMapper.selectByPrimaryKey(product.getCategoryId());
         if(category == null){
@@ -123,6 +126,7 @@ public class ProductServiceImpl implements IProductService {
         }else{
             productDetailVo.setParentCategoryId(category.getParentId());
         }
+
 
         productDetailVo.setCreateTime(DateTimeUtil.dateToStr(product.getCreateTime()));
         productDetailVo.setUpdateTime(DateTimeUtil.dateToStr(product.getUpdateTime()));
@@ -132,22 +136,18 @@ public class ProductServiceImpl implements IProductService {
 
 
     public ServerResponse<PageInfo> getProductList(int pageNum, int pageSize){
-        //startPage--start
-        //填充自己的sql查询逻辑
-        //pageHelper-收尾
+        //startPage
         PageHelper.startPage(pageNum,pageSize);
+        //sql查询逻辑
         List<Product> productList = productMapper.selectList();
-
         List<ProductListVo> productListVoList = Lists.newArrayList();
-
         for(Product productItem : productList){
             ProductListVo productListVo = assembleProductListVo(productItem);
             productListVoList.add(productListVo);
         }
-
+        //pageHelper
         PageInfo pageResult = new PageInfo(productList);
         pageResult.setList(productListVoList);
-
         return ServerResponse.createBySuccess(pageResult);
     }
 
@@ -157,7 +157,7 @@ public class ProductServiceImpl implements IProductService {
         productListVo.setName(product.getName());
         productListVo.setCategoryId(product.getCategoryId());
         productListVo.setImageHost(PropertiesUtil.getProperty("ftp.server.http.prefix",
-                "http://img.happymmall.com/"));
+                "http://img.fyb.com/"));
         productListVo.setMainImage(product.getMainImage());
         productListVo.setPrice(product.getPrice());
         productListVo.setSubtitle(product.getSubtitle());
@@ -169,6 +169,7 @@ public class ProductServiceImpl implements IProductService {
 
     public ServerResponse<PageInfo> searchProduct(String productName, Integer productId, int pageNum, int pageSize){
         PageHelper.startPage(pageNum,pageSize);
+
         if(StringUtils.isNotBlank(productName)){
             //SQL search
             productName = new StringBuilder().append("%").append(productName).append("%").toString();
@@ -179,12 +180,15 @@ public class ProductServiceImpl implements IProductService {
             ProductListVo productListVo = assembleProductListVo(productItem);
             productListVoList.add(productListVo);
         }
+
         PageInfo pageResult = new PageInfo(productList);
         pageResult.setList(productListVoList);
         return ServerResponse.createBySuccess(pageResult);
     }
 
 
+
+    //前台
     public ServerResponse<ProductDetailVo> getProductDetail(Integer productId){
         if(productId == null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),
@@ -202,12 +206,13 @@ public class ProductServiceImpl implements IProductService {
     }
 
 
-    public ServerResponse<PageInfo> getProductByKeywordCategory(String keyword, Integer categoryId, int pageNum, int pageSize,
-                                                                String orderBy){
+    public ServerResponse<PageInfo> getProductByKeywordCategory(String keyword, Integer categoryId, int pageNum,
+                                                                int pageSize, String orderBy){
         if(StringUtils.isBlank(keyword) && categoryId == null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),
                     ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
+
         List<Integer> categoryIdList = new ArrayList<Integer>();
 
         if(categoryId != null){

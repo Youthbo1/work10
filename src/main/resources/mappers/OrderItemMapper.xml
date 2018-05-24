@@ -23,15 +23,15 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from mmall_order_item
+    from order_item
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from mmall_order_item
+    delete from order_item
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.fyb.pojo.OrderItem" >
-    insert into mmall_order_item (id, user_id, order_no, 
+    insert into order_item (id, user_id, order_no,
       product_id, product_name, product_image, 
       current_unit_price, quantity, total_price, 
       create_time, update_time)
@@ -41,7 +41,7 @@
       now(),now())
   </insert>
   <insert id="insertSelective" parameterType="com.fyb.pojo.OrderItem" >
-    insert into mmall_order_item
+    insert into order_item
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -114,7 +114,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.fyb.pojo.OrderItem" >
-    update mmall_order_item
+    update order_item
     <set >
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
@@ -149,8 +149,9 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="com.fyb.pojo.OrderItem" >
-    update mmall_order_item
+    update order_item
     set user_id = #{userId,jdbcType=INTEGER},
       order_no = #{orderNo,jdbcType=BIGINT},
       product_id = #{productId,jdbcType=INTEGER},
@@ -163,4 +164,37 @@
       update_time =  now(),
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+  <select id="getByOrderNoUserId" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from order_item
+    where order_no = #{orderNo}
+    and user_id = #{userId}
+  </select>
+
+  <select id="getByOrderNo" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from order_item
+    where order_no = #{orderNo}
+  </select>
+
+
+
+  <!-- 批量把list里的值插入表中-->
+  <insert id="batchInsert" parameterType="list">
+    insert into order_item (id, order_no,user_id, product_id,
+    product_name, product_image, current_unit_price,
+    quantity, total_price, create_time,
+    update_time)
+    values
+    <foreach collection="orderItemList" index="index" item="item" separator=",">
+      (
+      #{item.id},#{item.orderNo},#{item.userId},#{item.productId},#{item.productName},#{item.productImage},
+      #{item.currentUnitPrice},#{item.quantity},#{item.totalPrice},now(),now()
+      )
+    </foreach>
+  </insert>
 </mapper>

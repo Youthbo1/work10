@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
  * \Date: 2018/3/10
  * \
  * \Description:
- * \
+ * \购物车模块
  */
 @Controller
 @RequestMapping("/cart/")
@@ -71,6 +71,7 @@ public class CartController {
         return iCartService.deleteProduct(user.getId(),productIds);
     }
 
+    //全选
 
     @RequestMapping("select_all.do")
     @ResponseBody
@@ -81,6 +82,7 @@ public class CartController {
         }
         return iCartService.selectOrUnSelect(user.getId(),null, Const.Cart.CHECKED);
     }
+    //全反选
 
     @RequestMapping("un_select_all.do")
     @ResponseBody
@@ -93,6 +95,7 @@ public class CartController {
     }
 
 
+    //单独选
 
     @RequestMapping("select.do")
     @ResponseBody
@@ -103,7 +106,7 @@ public class CartController {
         }
         return iCartService.selectOrUnSelect(user.getId(),productId, Const.Cart.CHECKED);
     }
-
+    //单独反选
     @RequestMapping("un_select.do")
     @ResponseBody
     public ServerResponse<CartVo> unSelect(HttpSession session, Integer productId){
@@ -115,7 +118,7 @@ public class CartController {
     }
 
 
-
+    //查询当前用户的购物车里面的产品数量,如果一个产品有10个,那么数量就是10.
     @RequestMapping("get_cart_product_count.do")
     @ResponseBody
     public ServerResponse<Integer> getCartProductCount(HttpSession session){
@@ -127,13 +130,4 @@ public class CartController {
     }
 
 
-
-
-    //全选
-    //全反选
-
-    //单独选
-    //单独反选
-
-    //查询当前用户的购物车里面的产品数量,如果一个产品有10个,那么数量就是10.
 }

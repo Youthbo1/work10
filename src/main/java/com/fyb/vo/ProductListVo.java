@@ -14,7 +14,7 @@ public class ProductListVo {
     private BigDecimal price;
 
     private Integer status;
-
+    //新增属性
     private String imageHost;
 
     public Integer getId() {
