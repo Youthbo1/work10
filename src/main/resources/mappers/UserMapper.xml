@@ -170,7 +170,6 @@
     and password = #{password}
   </select>
 
-
   <select id="selectQuestionByUsername" resultType="java.lang.String" parameterType="string">
     select
     question
@@ -200,7 +199,6 @@
     where password = #{password}
     and id = #{userId}
   </select>
-
 
   <select id="checkEmailByUserId" resultType="java.lang.Integer" parameterType="map">
     select count(1) from mall_user
