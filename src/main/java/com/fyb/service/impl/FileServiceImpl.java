@@ -22,7 +22,7 @@ public class FileServiceImpl implements IFileService {
     public String upload(MultipartFile file,String path){
         String fileName = file.getOriginalFilename();
         //扩展名
-        //abc.jpg
+        //boy.jpg
         String fileExtensionName = fileName.substring(fileName.lastIndexOf(".")+1);
         String uploadFileName = UUID.randomUUID().toString()+"."+fileExtensionName;
 
@@ -40,7 +40,6 @@ public class FileServiceImpl implements IFileService {
             file.transferTo(targetFile);
             //文件已经上传成功了
 
-
             FTPUtil.uploadFile(Lists.newArrayList(targetFile));
             //已经上传到ftp服务器上
 
@@ -49,8 +48,7 @@ public class FileServiceImpl implements IFileService {
             logger.error("上传文件异常",e);
             return null;
         }
-        //A:abc.jpg
-        //B:abc.jpg
+
         return targetFile.getName();
     }
 

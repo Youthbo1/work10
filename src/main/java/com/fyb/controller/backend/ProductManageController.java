@@ -49,7 +49,7 @@ public class ProductManageController {
 
         }
         if(iUserService.checkAdminRole(user).isSuccess()){
-            //填充我们增加产品的业务逻辑
+            //是管理员
             return iProductService.saveOrUpdateProduct(product);
         }else{
             return ServerResponse.createByErrorMessage("无权限操作");
@@ -82,7 +82,6 @@ public class ProductManageController {
 
         }
         if(iUserService.checkAdminRole(user).isSuccess()){
-            //填充业务
             return iProductService.manageProductDetail(productId);
 
         }else{
@@ -90,6 +89,7 @@ public class ProductManageController {
         }
     }
 
+    //分页
     @RequestMapping("list.do")
     @ResponseBody
     public ServerResponse getList(HttpSession session, @RequestParam(value = "pageNum",defaultValue = "1")

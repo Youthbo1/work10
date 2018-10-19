@@ -17,7 +17,7 @@ public class ProductDetailVo {
     private String createTime;
     private String updateTime;
 
-
+//新增属性
     private String imageHost;
     private Integer parentCategoryId;
 

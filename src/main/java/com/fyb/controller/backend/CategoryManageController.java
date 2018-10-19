@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
  * \Date: 2018/2/27
  * \
  * \Description:
- * \
+ * \分类模块
  */
 @Controller
 @RequestMapping("/manage/category")
@@ -41,7 +41,7 @@ public class CategoryManageController {
         //校验一下是否是管理员
         if(iUserService.checkAdminRole(user).isSuccess()){
             //是管理员
-            //增加我们处理分类的逻辑
+
             return iCategoryService.addCategory(categoryName,parentId);
 
         }else{
@@ -65,7 +65,7 @@ public class CategoryManageController {
     }
 
     @RequestMapping("get_category.do")
-    @ResponseBody
+    @ResponseBody//平级获取子节点
     public ServerResponse getChildrenParallelCategory(HttpSession session, @RequestParam(value = "categoryId" ,
             defaultValue = "0") Integer categoryId){
         User user = (User)session.getAttribute(Const.CURRENT_USER);
@@ -90,7 +90,7 @@ public class CategoryManageController {
         }
         if(iUserService.checkAdminRole(user).isSuccess()){
             //查询当前节点的id和递归子节点的id
-//            0->10000->100000
+//            0->10001->100001
             return iCategoryService.selectCategoryAndChildrenById(categoryId);
 
         }else{

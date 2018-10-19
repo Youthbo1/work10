@@ -5,7 +5,7 @@ import com.google.common.collect.Sets;
 import java.util.Set;
 
 /**
- *
+ * Created by geely
  */
 public class Const {
 
@@ -13,7 +13,12 @@ public class Const {
 
     public static final String EMAIL = "email";
     public static final String USERNAME = "username";
+    public static final String TOKEN_PREFIX = "token_";
 
+
+    public interface RedisCacheExtime{
+        int REDIS_SESSION_EXTIME = 60 * 30;//30分钟
+    }
     public interface ProductListOrderBy{
         Set<String> PRICE_ASC_DESC = Sets.newHashSet("price_desc","price_asc");
     }
@@ -80,7 +85,7 @@ public class Const {
                     return orderStatusEnum;
                 }
             }
-            throw new RuntimeException("没有找到对应的枚举");
+            throw new RuntimeException("么有找到对应的枚举");
         }
     }
     public interface  AlipayCallback{
@@ -142,7 +147,7 @@ public class Const {
 
     }
 
-
-
-
+    public interface  REDIS_LOCK{
+        String CLOSE_ORDER_TASK_LOCK = "CLOSE_ORDER_TASK_LOCK";//关闭订单的分布式锁
+    }
 }

@@ -58,9 +58,9 @@ public class CategoryServiceImpl implements ICategoryService {
 
         int rowCount = categoryMapper.updateByPrimaryKeySelective(category);
         if(rowCount > 0){
-            return ServerResponse.createBySuccess("更新品类名字成功");
+            return ServerResponse.createBySuccess("更新品类名字 成功");
         }
-        return ServerResponse.createByErrorMessage("更新品类名字失败");
+        return ServerResponse.createByErrorMessage("更新品类名字 失败");
     }
 
     public ServerResponse<List<Category>> getChildrenParallelCategory(Integer categoryId){
@@ -75,13 +75,10 @@ public class CategoryServiceImpl implements ICategoryService {
     /**
      * 递归查询本节点的id及孩子节点的id
      * @param categoryId
-     * @return
      */
     public ServerResponse<List<Integer>> selectCategoryAndChildrenById(Integer categoryId){
         Set<Category> categorySet = Sets.newHashSet();
         findChildCategory(categorySet,categoryId);
-
-
         List<Integer> categoryIdList = Lists.newArrayList();
         if(categoryId != null){
             for(Category categoryItem : categorySet){
@@ -92,13 +89,13 @@ public class CategoryServiceImpl implements ICategoryService {
     }
 
 
-    //递归算法,算出子节点
+    //递归算出子节点
     private Set<Category> findChildCategory(Set<Category> categorySet , Integer categoryId){
         Category category = categoryMapper.selectByPrimaryKey(categoryId);
         if(category != null){
             categorySet.add(category);
         }
-        //查找子节点,递归算法一定要有一个退出的条件
+        //查找子节点
         List<Category> categoryList = categoryMapper.selectCategoryChildrenByParentId(categoryId);
         for(Category categoryItem : categoryList){
             findChildCategory(categorySet,categoryItem.getId());

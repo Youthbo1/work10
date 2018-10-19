@@ -1,6 +1,11 @@
 package com.fyb.common;
 
-
+/**
+ * \Date: 2018/1/31
+ * \
+ * \Description:
+ * \响应码
+ */
 
 public enum ResponseCode {
 

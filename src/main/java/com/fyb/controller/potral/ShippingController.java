@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
  * \Date: 2018/3/10
  * \
  * \Description:
- * \
+ * \收货地址模块
  */
 
 @Controller
@@ -38,6 +38,7 @@ public class ShippingController {
         if(user ==null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
         }
+
         return iShippingService.add(user.getId(),shipping);
     }
 
@@ -49,6 +50,7 @@ public class ShippingController {
         if(user ==null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
         }
+        //传2个ID可以防止横向越权
         return iShippingService.del(user.getId(),shippingId);
     }
 
