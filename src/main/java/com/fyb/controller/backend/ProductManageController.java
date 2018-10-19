@@ -27,7 +27,7 @@ import java.util.Map;
  * \Date: 2018/2/27
  * \
  * \Description:
- * \
+ * \产品管理模块
  */
 @Controller
 @RequestMapping("/manage/product")
@@ -101,7 +101,7 @@ public class ProductManageController {
 
         }
         if(iUserService.checkAdminRole(user).isSuccess()){
-            //填充业务
+
             return iProductService.getProductList(pageNum,pageSize);
         }else{
             return ServerResponse.createByErrorMessage("无权限操作");
@@ -162,12 +162,6 @@ public class ProductManageController {
             resultMap.put("msg","请登录管理员");
             return resultMap;
         }
-        //富文本中对于返回值有自己的要求,我们使用是simditor所以按照simditor的要求进行返回
-//        {
-//            "success": true/false,
-//                "msg": "error message", # optional
-//            "file_path": "[real file path]"
-//        }
         if(iUserService.checkAdminRole(user).isSuccess()){
             String path = request.getSession().getServletContext().getRealPath("upload");
             String targetFileName = iFileService.upload(file,path);

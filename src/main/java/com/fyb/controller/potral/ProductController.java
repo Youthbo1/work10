@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * \Date: 2018/2/27
  * \
  * \Description:
- * \
+ * \产品模块
  */
 @Controller
 @RequestMapping("/product/")
